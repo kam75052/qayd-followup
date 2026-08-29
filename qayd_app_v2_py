@@ -1,0 +1,99 @@
+import tkinter as tk
+from tkinter import ttk, messagebox
+
+APP_TITLE = "نظام إدارة القيود والمتابعة V2"
+
+root = tk.Tk()
+root.title(APP_TITLE)
+root.geometry("1100x700")
+root.minsize(900, 600)
+
+style = ttk.Style()
+style.configure("Title.TLabel", font=("Arial", 22, "bold"))
+style.configure("Head.TLabel", font=("Arial", 13, "bold"))
+
+# العنوان
+ttk.Label(
+    root,
+    text="نظام إدارة القيود والمتابعة",
+    style="Title.TLabel"
+).pack(pady=(20, 5))
+
+ttk.Label(
+    root,
+    text="النسخة المطورة V2",
+    style="Head.TLabel"
+).pack(pady=(0, 15))
+
+# لوحة الإحصائيات
+stats = ttk.Frame(root)
+stats.pack(fill="x", padx=20, pady=10)
+
+for title, value in [
+    ("إجمالي القيود", "0"),
+    ("منجزة", "0"),
+    ("غير منجزة", "0"),
+    ("تحتاج متابعة", "0"),
+]:
+    box = ttk.LabelFrame(stats, text=title)
+    box.pack(side="right", expand=True, fill="x", padx=5)
+    ttk.Label(box, text=value, font=("Arial", 18, "bold")).pack(pady=18)
+
+# شريط الأدوات
+toolbar = ttk.Frame(root)
+toolbar.pack(fill="x", padx=20, pady=15)
+
+ttk.Button(toolbar, text="إضافة قيد").pack(side="right", padx=4)
+ttk.Button(toolbar, text="تعديل القيد").pack(side="right", padx=4)
+ttk.Button(toolbar, text="الإحالات والمتابعات").pack(side="right", padx=4)
+ttk.Button(toolbar, text="التقارير والطباعة").pack(side="right", padx=4)
+ttk.Button(toolbar, text="الترويسة والتوقيع").pack(side="right", padx=4)
+ttk.Button(toolbar, text="المستخدمون والصلاحيات").pack(side="right", padx=4)
+
+# البحث
+search = ttk.Frame(root)
+search.pack(fill="x", padx=20, pady=5)
+
+ttk.Label(search, text="بحث:").pack(side="right", padx=5)
+ttk.Entry(search, width=40).pack(side="right")
+
+# جدول القيود
+columns = (
+    "number",
+    "subject",
+    "entity",
+    "date",
+    "priority",
+    "status"
+)
+
+table = ttk.Treeview(
+    root,
+    columns=columns,
+    show="headings",
+    height=15
+)
+
+headers = {
+    "number": "رقم القيد",
+    "subject": "الموضوع",
+    "entity": "جهة التوجيه",
+    "date": "التاريخ",
+    "priority": "الأولوية",
+    "status": "الحالة",
+}
+
+for column in columns:
+    table.heading(column, text=headers[column])
+    table.column(column, anchor="center", width=150)
+
+table.pack(fill="both", expand=True, padx=20, pady=10)
+
+# شريط الحالة
+ttk.Label(
+    root,
+    text="نظام إدارة القيود والمتابعة — V2",
+    anchor="center"
+).pack(fill="x", pady=5)
+
+root.mainloop()

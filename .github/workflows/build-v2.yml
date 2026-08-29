@@ -1,0 +1,29 @@
+name: Build Windows V2
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install PyInstaller
+        run: python -m pip install --upgrade pip pyinstaller
+
+      - name: Build V2
+        run: pyinstaller --onefile --windowed --name "نظام_القيود_والمتابعة_V2" qayd_app_v2.py
+
+      - name: Upload EXE
+        uses: actions/upload-artifact@v4
+        with:
+          name: نظام-القيود-والمتابعة-V2
+          path: dist/*.exe
